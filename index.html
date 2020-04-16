@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css" />
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css" />
+  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+  <link rel="preload" href="js/script.js" as="script">
+  <script type="text/javascript" src="js/script.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <title>Near it. Fear it.</title>
+</head>
+
+<body>
+  <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+
+  <template id="page1.html">
+    <ons-page id="page1" class="mypage">
+      <ons-toolbar>
+        <div class="center"></div>
+      </ons-toolbar>
+
+      <div class="header">
+        <img src="images/logo_big.png" id="logo" alt="near it fear it logo" />
+      </div>
+
+      <div class="text">
+        <h5> <b>Welcome to Near It, Fear It.</b></h5>
+        <p style="line-height: 1.5"> This application will analyse your location and generate a personalized public
+          information crime advert.</p>
+        <h6> (Must allow location for application to work) <h6>
+      </div>
+
+      <div class="other">
+        <ons-button class="main-button" id="push-button" onclick="buttontrigger()">CLICK TO BEGIN</ons-button>
+      </div>
+      <div class="other">
+        <ons-button class="small-button" id="push-button2">More info</ons-button>
+      </div>
+
+
+<ons-modal direction="up">
+  <div style="text-align: center">
+    <p>
+      <ons-icon icon="md-spinner" size="70px" spin></ons-icon> <br>Getting the data from the API... <br> Be patient!
+    </p>
+  </div>
+</ons-modal>
+      <!-- <div class="footer">
+        <img src="ee.png" id="footer" alt="footer" />
+      </div> -->
+    </ons-page>
+  </template>
+
+  <template id="page2.html">
+    <ons-page id="page2">
+      <ons-toolbar>
+        <!-- <div class="left">
+          <ons-back-button></ons-back-button>
+        </div> -->
+      </ons-toolbar>
+
+      <div class="header" id="header-logo" style="display:block">
+        <img src="images/logo_big.png" id="logo2" alt="near it fear it logo" />
+      </div>
+
+      <div id="progress-bar" style="display:block">
+        <h5>Analysing location and generating the advert...</h5>
+        <div id="myProgress">
+          <!-- <div id="myBar"></div> -->
+          <!-- <ons-progress-circular indeterminate></ons-progress-circular> -->
+          <ons-progress-bar indeterminate></ons-progress-bar>
+        </div>
+      </div>
+
+      <div class="container" id="message" style="display:block">
+        <p>Closest crime distance:</p>
+        <!-- <h3 id="closest-crime"></h3> -->
+        <h1 id="loading" style="display:block">Loading...</h1>
+        <div id="distancediv" style="display:none">
+          <h1 id="closest-crime-distance"></h1>
+        </div>
+        <div id="undefineddiv" style="display:none">
+          <p>Unable to fetch the data. Wait a few minutes, then start again.</p>
+        </div>
+      </div>
+
+      <h6 id="completed" style="display:block">Video will auto play once completed</h6>
+      
+        <video mute controls id="my-video" style="display:none">
+          <source src="" type="video/mp4">
+        </video>
+
+
+    </ons-page>
+  </template>
+
+  <template id="page3.html">
+    <ons-page id="page3">
+      <div class="header">
+        <img src="images/logo_big.png" id="logo2" alt="near it fear it logo" />
+      </div>
+      <h2 id=crime-level-results></h2>
+      <div class="container2">
+        <h3>The closest to you...</h3>
+        <h4>Crime type - </h4>
+        <h4 id="closest-crime" style="font-weight:bold"></h4><br>
+        <h4>Distance from crime - </h4>
+        <h4 id="closest-crime-distance2" style="font-weight:bold"></h4>
+      </div>
+      <ons-button class="trigger-btn" id="trigger-replay"><span class="icon"></span> Replay</ons-button>
+      <div class="container2">
+        <h3>Other risks occurring in your area...</h3>
+        <ons-row>
+          <ons-col width="200px">
+            <h4 id="first"></h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-crime-page" style="margin-top: 4px"><span class="icon2"></span>
+            </ons-button>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="200px">
+            <h4 id="second"></h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-crime-page2" style="margin-top: 4px"> <span
+                class="icon2"></span></ons-button>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="200px">
+            <h4 id="third"></h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-crime-page3" style="margin-top: 4px"> <span
+                class="icon2"></span></ons-button>
+          </ons-col>
+        </ons-row>
+      </div>
+      <div class="other">
+        <ons-button class="small-button2" id="start-again">Start again</ons-button>
+        <ons-button class="small-button" id="push-button3">Learn more</ons-button>
+      </div>
+    </ons-page>
+  </template>
+
+  <template id="page4.html">
+    <ons-page id="page4">
+      <video mute controls id="closest-video">
+        <source src="" type="video/mp4">
+      </video>
+    </ons-page>
+  </template>
+
+  <template id="page5.html">
+    <ons-page id="page5">
+      <video mute controls id="first-video">
+        <source src="" type="video/mp4">
+      </video>
+    </ons-page>
+  </template>
+
+  <template id="page6.html">
+    <ons-page id="page6">
+      <video mute controls id="second-video">
+        <source src="" type="video/mp4">
+      </video>
+    </ons-page>
+  </template>
+
+  <template id="page7.html">
+    <ons-page id="page7">
+      <video mute controls id="third-video">
+        <source src="" type="video/mp4">
+      </video>
+    </ons-page>
+  </template>
+
+  <template id="page8.html">
+    <ons-page id="page8">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button id="back2"></ons-back-button>
+        </div>
+        <div class="center">More info</div>
+      </ons-toolbar>
+      <div class="text1">
+        <p style="line-height: 1.2"> The aim of this project is to be thought provoking and eye opening by demonstrating
+          the level of control governments and authorities could achieve by utilizing data to deliver a scaremongering
+          and fear-provoking public information advert on an individual user by user basis.
+          <br> <br>User will receive an advert that is created based on current geolocation and data from the <a
+            href="https://data.police.uk/docs/" target="_blank" style="color:white"> UK Crime
+            API</a>
+          Advert
+          <br><br> The adverts use the same style scare tactics that governments and authorities have used
+          in the past to create efficient public information campaigns.</p>
+      </div>
+      <ons-button id="view-all" class="small-button2"> View all videos </ons-button>
+      <div class="header">
+        <img src="images/logo_big.png" id="logo" alt="near it fear it logo" />
+      </div>
+    </ons-page>
+  </template>
+
+
+  <template id="page9.html">
+    <ons-page id="page9">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button id="goback" style="display: block"></ons-back-button>
+        </div>
+        <div class="center">All videos</div>
+
+      </ons-toolbar>
+      <div class="container2" id="buttons" style="display: block">
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Anti social behaviour offence</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video1"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Theft of personal belongings</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video2"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Violence and sexual assult</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video3"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Drug offence</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video4"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Usage and possession of weapons</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video5"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="200px">
+            <h4>Property theft</h4>
+          </ons-col>
+          <ons-col>
+            <ons-button class="trigger-btn2" id="trigger-video6"> <span class="icon2"></span> </ons-button>
+          </ons-col>
+        </ons-row>
+      </div>
+
+      <video mute controls id="video1" class="videoshow" style="display: none">
+        <source src="videos/anti-social.mp4" type="video/mp4">
+      </video>
+      <video mute controls id="video2" class="videoshow" style="display: none">
+        <source src="videos/personal-theft.mp4" type="video/mp4">
+      </video>
+      <video mute controls id="video3" class="videoshow" style="display: none">
+        <source src="videos/sexual-assult.mp4" type="video/mp4">
+      </video>
+      <video mute controls id="video4" class="videoshow" style="display: none">
+        <source src="videos/drugs.mp4" type="video/mp4">
+      </video>
+      <video mute controls id="video5" class="videoshow" style="display: none">
+        <source src="videos/weapons.mp4" type="video/mp4">
+      </video>
+      <video mute controls id="video6" class="videoshow" style="display: none">
+        <source src="videos/property-theft.mp4" type="video/mp4">
+      </video>
+      <div class="header" id="logoheader">
+        <img src="images/logo_big.png" id="logo" alt="near it fear it logo" />
+      </div>
+    </ons-page>
+  </template>
+
+
+</body>
+
+
+</html>
+
+</body>
+
+</html>
